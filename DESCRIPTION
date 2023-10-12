@@ -1,0 +1,19 @@
+Package: azmapr
+Title: Access and Tidy Azure Maps API
+Version: 0.0.0.9000
+Authors@R: 
+    person("Matt", "Broerman", , "mjb357@pitt.edu", role = c("aut", "cre"))
+Description: This package mainly prepares and accesses address search (e.g. geocoding) from Azure. Currently it supports only the synchronous options.
+License: MIT + file LICENSE
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    dplyr,
+    httr2,
+    purrr,
+    readr,
+    tibble
