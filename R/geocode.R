@@ -16,12 +16,12 @@
 #'
 az_fmt_batch <- function(df, address, limit = 1){
 
-  stopifnot("too many addresses in batch" = nrow(df) <= 10)
+  stopifnot("too many addresses in batch" = nrow(df) <= 100)
 
   df |>
     mutate(query = paste0("?query=", .data[[address]], "&limit=", limit)) |>
-    select(query) |>
-    list(batchItems = .) |>
+    select("query") |>
+    list(batchItems = _) |>
     jsonlite::toJSON()
 }
 

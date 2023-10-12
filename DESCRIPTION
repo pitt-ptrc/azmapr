@@ -14,8 +14,11 @@ RoxygenNote: 7.2.3
 Imports: 
     dplyr,
     httr2,
+    jsonlite,
     purrr,
-    readr,
-    tibble
+    rlang
 URL: https://github.com/pitt-ptrc/azmapr, https://pitt-ptrc.github.io/azmapr/
 BugReports: https://github.com/pitt-ptrc/azmapr/issues
+Depends: 
+    R (>= 2.10)
+LazyData: true
