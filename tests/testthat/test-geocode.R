@@ -1,6 +1,6 @@
-test_that("az_fmt_batch works correctly", {
+test_that("azm_fmt_batch works correctly", {
   # Your function to test
-  result <- az_fmt_batch(cand, address = "address", limit = 2)
+  result <- azm_fmt_batch(cand, address, limit = 2)
 
   # Check that the result is a JSON string
   expect_type(result, "character")

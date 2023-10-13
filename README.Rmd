@@ -28,31 +28,35 @@ The goal of azmapr is to access the Azure Maps API and tidy the results.
 You can install the development version of azmapr like so:
 
 ``` r
-remotes::install("pitt-ptrc/azmapr)
+remotes::install_github("pitt-ptrc/azmapr")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Given data frame with a column `address`, the main wrapper function `azm_geocode` has sane defaults. 
 
 ```{r example}
 library(azmapr)
-library(dplyr)
 
-path_json <- system.file("extdata", "test.json", package = "azmapr")
+azm_geocode(cand)
+```
 
-resp <- 
-  path_json |> 
-  # TODO: geocode -> addr_search
-  az_geocode_file()
+The Azure Maps API limits you to 100 address batches. If you pass a more than 100, `azmapr` breaks it up into chunks and pauses briefly in between. Azure Maps supports async geocoding for larger batches, but `azmapr` hasn't figured that out yet.
 
-resp |> 
-  az_extract_body(type = "position") |> 
-  bind_rows()
+```{r}
+azm_geocode(cand, test_batch = TRUE)
+```
 
-resp |> 
-  az_extract_body(type = "address") |> 
-  bind_rows() |> 
-  select(1:4)
+If you want to adjust settings, the functions are pipe-able. 
+
+```{r example-adjustment}
+
+cand |> 
+  azm_fmt_batch(address, limit = 2) |> 
+  azm_request_batch() |> 
+  azm_extract_body(type = "viewport") |> 
+  dplyr::bind_rows() |> 
+  dplyr::mutate(topLeftPoint = unlist(topLeftPoint),
+                btmRightPoint = unlist(btmRightPoint))
 
 ```

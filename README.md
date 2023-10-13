@@ -9,6 +9,7 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/azmapr)](https://CRAN.R-project.org/package=azmapr)
+[![R-CMD-check](https://github.com/pitt-ptrc/azmapr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/pitt-ptrc/azmapr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of azmapr is to access the Azure Maps API and tidy the results.
@@ -18,54 +19,74 @@ The goal of azmapr is to access the Azure Maps API and tidy the results.
 You can install the development version of azmapr like so:
 
 ``` r
-remotes::install("pitt-ptrc/azmapr)
+remotes::install_github("pitt-ptrc/azmapr")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Given data frame with a column `address`, the main wrapper function
+`azm_geocode` has sane defaults.
 
 ``` r
 library(azmapr)
-library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 
-path_json <- system.file("extdata", "test.json", package = "azmapr")
+azm_geocode(cand)
+#> # A tibble: 6 × 4
+#>   id              address                                  lat   lon
+#>   <chr>           <chr>                                  <dbl> <dbl>
+#> 1 Conor_Lamb      P.O. Box 10381, Pittsburgh, PA 15234    40.4 -80.0
+#> 2 Dave_McCormick  117 Woodland Rd., Pittsburgh, PA 15232  40.4 -79.9
+#> 3 Jeff_Coleman    P.O. Box 23173, Pittsburgh, PA 15222    40.4 -80.0
+#> 4 Steve_Irwin     5271 Forbes Ave., Pittsburgh, PA 15217  40.4 -79.9
+#> 5 Jerry_Dickinson 1211 Milton St., Pittsburgh, PA 15218   40.4 -79.9
+#> 6 Summer_Lee      7502 Roslyn St., Pittsburgh, PA 15218   40.4 -79.9
+```
 
-resp <- 
-  path_json |> 
-  # TODO: geocode -> addr_search
-  az_geocode_file()
+The Azure Maps API limits you to 100 address batches. If you pass a more
+than 100, `azmapr` breaks it up into chunks and pauses briefly in
+between. Azure Maps supports async geocoding for larger batches, but
+`azmapr` hasn’t figured that out yet.
 
-resp |> 
-  az_extract_body(type = "position") |> 
-  bind_rows()
-#> # A tibble: 5 × 2
-#>     lat     lon
-#>   <dbl>   <dbl>
-#> 1  47.6 -122.  
-#> 2  47.6 -122.  
-#> 3  40.7  -74.0 
-#> 4  47.6 -122.  
-#> 5  48.9    2.29
+``` r
+azm_geocode(cand, test_batch = TRUE)
+#> running batch  1 
+#> running batch  2 
+#> running batch  3
+#> # A tibble: 6 × 5
+#>   id              address                                group   lat   lon
+#>   <chr>           <chr>                                  <dbl> <dbl> <dbl>
+#> 1 Conor_Lamb      P.O. Box 10381, Pittsburgh, PA 15234       0  40.4 -80.0
+#> 2 Dave_McCormick  117 Woodland Rd., Pittsburgh, PA 15232     0  40.4 -79.9
+#> 3 Jeff_Coleman    P.O. Box 23173, Pittsburgh, PA 15222       1  40.4 -80.0
+#> 4 Steve_Irwin     5271 Forbes Ave., Pittsburgh, PA 15217     1  40.4 -79.9
+#> 5 Jerry_Dickinson 1211 Milton St., Pittsburgh, PA 15218      2  40.4 -79.9
+#> 6 Summer_Lee      7502 Roslyn St., Pittsburgh, PA 15218      2  40.4 -79.9
+```
 
-resp |> 
-  az_extract_body(type = "address") |> 
-  bind_rows() |> 
-  select(1:4)
-#> # A tibble: 5 × 4
-#>   streetNumber streetName            municipalitySubdivision municipality
-#>   <chr>        <chr>                 <chr>                   <chr>       
-#> 1 400          Broad Street          Queen Anne              Seattle     
-#> 2 <NA>         NE One Microsoft Way  <NA>                    Redmond     
-#> 3 350          5th Avenue            Manhattan               New York    
-#> 4 <NA>         Pike Place            Downtown Seattle        Seattle     
-#> 5 5            Avenue Anatole France 7ème Arrondissement     Paris
+If you want to adjust settings, the functions are pipe-able.
+
+``` r
+
+cand |> 
+  azm_fmt_batch(address, limit = 2) |> 
+  azm_request_batch() |> 
+  azm_extract_body(type = "viewport") |> 
+  dplyr::bind_rows() |> 
+  dplyr::mutate(topLeftPoint = unlist(topLeftPoint),
+                btmRightPoint = unlist(btmRightPoint))
+#> # A tibble: 12 × 2
+#>    topLeftPoint btmRightPoint
+#>           <dbl>         <dbl>
+#>  1         40.4          40.4
+#>  2        -80.1         -80.0
+#>  3         40.4          40.4
+#>  4        -79.9         -79.9
+#>  5         40.5          40.4
+#>  6        -80.0         -80.0
+#>  7         40.4          40.4
+#>  8        -79.9         -79.9
+#>  9         40.4          40.4
+#> 10        -79.9         -79.9
+#> 11         40.4          40.4
+#> 12        -79.9         -79.9
 ```
