@@ -4,7 +4,10 @@
 \alias{get_azm_url}
 \title{Retrieve Full Azure Maps API URL}
 \usage{
-get_azm_url()
+get_azm_url(direction)
+}
+\arguments{
+\item{direction}{Forward "fwd" or Reverse "rev"}
 }
 \value{
 A string, the complete API URL including the subscription key.

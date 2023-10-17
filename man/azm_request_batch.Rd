@@ -4,10 +4,12 @@
 \alias{azm_request_batch}
 \title{Request a Batch of Addresses from Azure Maps}
 \usage{
-azm_request_batch(batch_json)
+azm_request_batch(batch_json, direction)
 }
 \arguments{
 \item{batch_json}{A JSON. A JSON string formatted for use with the Azure Maps API.}
+
+\item{direction}{"fwd" or "rev"}
 }
 \value{
 JSON. The response from the Azure Maps API.

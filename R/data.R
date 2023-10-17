@@ -35,3 +35,23 @@ cand <-
     row.names = c(NA,-6L),
     class = c("tbl_df", "tbl", "data.frame")
   )
+
+
+#' Coordinates dataset
+#'
+#' A dataset containing latitude and longitude values for certain locations.
+#'
+#' @format A data frame with 6 rows and 2 variables:
+#' \describe{
+#'   \item{lat}{Latitude of the location. Numeric.}
+#'   \item{lon}{Longitude of the location. Numeric.}
+#' }
+#'
+#'
+#' @examples
+#' head(coords)
+#'
+#' # Plotting the coordinates
+#' plot(coords$lon, coords$lat)
+#'
+"coords"

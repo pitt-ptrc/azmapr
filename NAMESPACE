@@ -2,8 +2,10 @@
 
 export(azm_extract_body)
 export(azm_fmt_batch)
+export(azm_fmt_rev_batch)
 export(azm_geocode)
 export(azm_request_batch)
+export(azm_rev_geocode)
 import(rlang)
 importFrom(dplyr,bind_cols)
 importFrom(dplyr,bind_rows)

@@ -44,7 +44,7 @@ azm_geocode(cand)
 The Azure Maps API limits you to 100 address batches. If you pass a more than 100, `azmapr` breaks it up into chunks and pauses briefly in between. Azure Maps supports async geocoding for larger batches, but `azmapr` hasn't figured that out yet.
 
 ```{r}
-azm_geocode(cand, test_batch = TRUE)
+azm_geocode(cand, .test_batch = TRUE)
 ```
 
 If you want to adjust settings, the functions are pipe-able. 
@@ -53,10 +53,28 @@ If you want to adjust settings, the functions are pipe-able.
 
 cand |> 
   azm_fmt_batch(address, limit = 2) |> 
-  azm_request_batch() |> 
-  azm_extract_body(type = "viewport") |> 
+  azm_request_batch(direction = "fwd") |> 
+  azm_extract_body(type = "viewport", direction = "fwd") |> 
   dplyr::bind_rows() |> 
   dplyr::mutate(topLeftPoint = unlist(topLeftPoint),
                 btmRightPoint = unlist(btmRightPoint))
 
+```
+
+You can also reverse geocode. Again, given a dataframe with `lat` and `lon` the main wrapper has sane defaults. Suppose you want to associate 9-digit zipcodes with coordinates. 
+
+```{r}
+coords |> 
+  azm_rev_geocode(lat, lon) |> 
+  dplyr::select(lat, lon, streetNameAndNumber, extendedPostalCode)
+```
+
+But you can also pipe and adjust
+
+```{r}
+coords |> 
+  azm_fmt_rev_batch(lat, lon, limit = 1) |> 
+  azm_request_batch(direction = "rev") |> 
+  azm_extract_body(type = "address", direction = "rev") |> 
+  dplyr::bind_rows()
 ```
