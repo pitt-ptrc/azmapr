@@ -22,19 +22,34 @@
     <loc>https://pitt-ptrc.github.io/azmapr/reference/azm_fmt_batch.html</loc>
   </url>
   <url>
+    <loc>https://pitt-ptrc.github.io/azmapr/reference/azm_fmt_rev_batch.html</loc>
+  </url>
+  <url>
+    <loc>https://pitt-ptrc.github.io/azmapr/reference/azm_fwd_batch_url.html</loc>
+  </url>
+  <url>
     <loc>https://pitt-ptrc.github.io/azmapr/reference/azm_geocode.html</loc>
   </url>
   <url>
     <loc>https://pitt-ptrc.github.io/azmapr/reference/azm_geocode_batch.html</loc>
   </url>
   <url>
-    <loc>https://pitt-ptrc.github.io/azmapr/reference/azm_maps_base_url.html</loc>
+    <loc>https://pitt-ptrc.github.io/azmapr/reference/azm_geocode_rev_batch.html</loc>
   </url>
   <url>
     <loc>https://pitt-ptrc.github.io/azmapr/reference/azm_request_batch.html</loc>
   </url>
   <url>
+    <loc>https://pitt-ptrc.github.io/azmapr/reference/azm_rev_batch_url.html</loc>
+  </url>
+  <url>
+    <loc>https://pitt-ptrc.github.io/azmapr/reference/azm_rev_geocode.html</loc>
+  </url>
+  <url>
     <loc>https://pitt-ptrc.github.io/azmapr/reference/cand.html</loc>
+  </url>
+  <url>
+    <loc>https://pitt-ptrc.github.io/azmapr/reference/coords.html</loc>
   </url>
   <url>
     <loc>https://pitt-ptrc.github.io/azmapr/reference/get_azm_url.html</loc>

@@ -51,7 +51,7 @@ geocode addresses in a data frame, handling batching and type selection.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">azm_geocode</span><span class="op">(</span><span class="va">df</span>, <span class="va">address</span>, type <span class="op">=</span> <span class="st">"position"</span>, test_batch <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">azm_geocode</span><span class="op">(</span><span class="va">df</span>, <span class="va">address</span>, type <span class="op">=</span> <span class="st">"position"</span>, .test_batch <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -70,7 +70,7 @@ containing the addresses to be geocoded.</p></dd>
 Must be one of "position", "address", or "matchConfidence".</p></dd>
 
 
-<dt>test_batch</dt>
+<dt>.test_batch</dt>
 <dd><p>A logical. If <code>TRUE</code>, the function will run in test mode,
 processing only a small subset of the data.</p></dd>
 
@@ -84,9 +84,10 @@ processing only a small subset of the data.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="fu">azm_geocode</span><span class="op">(</span><span class="va">my_data</span>, <span class="st">"street_address_column"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">azm_geocode</span><span class="op">(</span><span class="va">cand</span>, <span class="va">address</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get_azm_url(direction = direction):</span> Azure Maps API Subscription Key not found in your environment variables. </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> Obtain a key from https://azure.com/maps and set it using: </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> Sys.setenv(AZ_MAPS_SUBSCRIPTION_KEY = 'your_key_here')</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
