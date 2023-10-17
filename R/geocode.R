@@ -253,9 +253,6 @@ azm_geocode_rev_batch <- function(df, lat, lon, type = "address"){
 #' @importFrom dplyr group_by group_split bind_rows row_number
 #' @importFrom purrr imap
 #'
-#' @examples
-#' azm_geocode(cand, address)
-#'
 azm_geocode <- function(df, address, type = "position", .test_batch = FALSE){
   # Input checks
   stopifnot("Input df must be a data frame." = inherits(df, "data.frame"))

@@ -25,7 +25,3 @@ A data frame containing the original data plus geocoding results.
 This function interacts with the AZM geocoding service to
 geocode addresses in a data frame, handling batching and type selection.
 }
-\examples{
-azm_geocode(cand, address)
-
-}
